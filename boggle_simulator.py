@@ -5,6 +5,44 @@
 import random
 import numpy as np
 
+
+
+
+
+
+class Array2D():
+   def __init__(self, *letters:list):
+       if len(letters) > 0:
+           for a in letters:
+               if isinstance(a, list) == False:
+                   raise Exception("Invalid type argument")
+           self.__arr__ = [ a for a in letters ]
+       else:
+           raise Exception("Invalid number of arguments")
+
+   def append_row(self, letters:list):
+       if isinstance(letters, list) == False:
+           raise Exception("Invalid type argument")
+       self.__arr__.append(letters)
+
+   def display(self):
+       print(len(self.__arr__[0][0]) * 2 * " ", end="")
+       [print(i, end=" ") for i in range(0,len(self.__arr__[0]))]
+       print()
+       for row_index,row in enumerate(self.__arr__):
+           print(row_index, end=" ")
+           for element in row:
+               print(element,end=" ")
+           print()
+       print(len(self.__arr__[0][0]) * 2 * " ", end="")
+
+   def __call__(self):
+       return self.__arr__
+
+a = Array2D(['I','O','T','M','U','C'],['R','Y','V','D','E','L'])
+a.append_row(['A','H','S','P','C','O'])
+print(a.display())
+
 # Dice class will be used to create the 16 different dice
 class Dice:
     def __init__(self, sides:list):
