@@ -68,3 +68,5 @@ def are_we_there_yet(directions:list or tuple, starting_point=Point(0,0)):
         raise Exception("Please provide correct arguments.")
 
 
+print(are_we_there_yet(['N','N','N','N','N','S','S','S','S','S',]))
+
