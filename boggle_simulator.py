@@ -2,69 +2,13 @@
 # Intended to be used by a single player
 # Will have 16 dice each with a specific set of letters on them
 
-
-import random
-import copy
+from random import shuffle
+from random import choice
+import numpy as np
 
 class BoggleGame():
-   def __init__(self, *args):
-       dice = Array2D(*args)
-       temp = {}
-       self.grid = [[dice()[random.randint(0,5)] for _ in range(0,4)] for _ in range(0,4)]
-       for row_index, row in enumerate(self.grid):
-           for column_index, column in enumerate(row):
-               temp[(row_index, column_index)] = column
-       self.grid = copy.deepcopy(temp)
-       
-   def find_all_letters(self, letter:str):
-       letters_found = {}
-       for key,value in self.grid.items():
-           if value == letter:
-               letters_found[key] = value
-       return letters_found
-
-   def import_file(filename:str):
-       pass
-
-   def is_word_in_grid(word:str) -> bool:
-       # example afton
-       for letter in word:
-           pass
-
-   def was_letter_used_twice(**kwargs) -> bool:
-       pass
-class Array2D():
-   def __init__(self, *letters:list):
-       self.current_index_row = 0
-       if len(letters) > 0:
-           for a in letters:
-               if isinstance(a, list) == False:
-                   raise Exception("Invalid type argument")
-           self.__arr__ = [ a for a in letters ]
-       else:
-           raise Exception("Invalid number of arguments")
-
-   def append_row(self, letters:list):
-       if isinstance(letters, list) == False:
-           raise Exception("Invalid type argument")
-       self.__arr__.append(letters)
-
-   def display(self):
-       print(len(self.__arr__[0][0]) * 2 * " ", end="")
-       [print(i, end=" ") for i in range(0,len(self.__arr__[0]))]
-       print()
-       for row_index,row in enumerate(self.__arr__):
-           print(row_index, end=" ")
-           for element in row:
-               print(element,end=" ")
-           print()
-       print(len(self.__arr__[0][0]) * 2 * " ", end="")
-
-   def __call__(self):
-       row = self.__arr__[self.current_index_row]
-       self.current_index_row +=1
-       return row
-bg = BoggleGame(['A','E','A','N','E','G'],
+    def __init__(self):
+        self.dice = [['A','E','A','N','E','G'],
                ['A','H','S','P','C','O'],
                ['A','S','P','F','F','K'],
                ['O','B','J','O','A','B'],
@@ -79,5 +23,115 @@ bg = BoggleGame(['A','E','A','N','E','G'],
                ['E','R','T','T','Y','L'],
                ['T','O','E','S','S','I'],
                ['T','E','R','W','H','V'],
-               ['N','U','I','H','M','Qu'] )
+               ['N','U','I','H','M','Qu']]
+
+    def start_game(self):
+        
+        shuffle(self.dice)
+        rows = []
+        for i in range(4):
+            new_row = [choice(self.dice[i*4 + 0]),
+                        choice(self.dice[i*4 + 1]),
+                        choice(self.dice[i*4 + 2]),
+                        choice(self.dice[i*4 + 3])]
+            rows.append(new_row)
+        game_letters =[]
+        for row in rows:
+            print(*row, sep = " ")
+            game_letters.append(row)
+        return game_letters
+            
+
+    def welcome_sign(self):
+        print("Welcome to Boggle!")
+
+    def get_user_word(self):
+        print("Type a word and press enter or press X to exit the game and receive your score: ")
+        self.word = input()
+        return self.word
+ 
+    def import_file(filename:str):
+        pass
+    
+    def is_word_three_letters(self,word):
+        if len(word) >= 3:
+            return True
+        else:
+            return False
+
+    def get_list_of_letters(self, game_letters):
+        game_letters_list = []
+        for row in game_letters:
+            for element in row:
+                game_letters_list.append(element)
+        return game_letters_list
+
+    def is_word_on_board(self, word:str, game_letters_list:list) -> bool:
+        lowercase_letters = [each_letter.lower() for each_letter in game_letters_list]
+        count = 0
+        for letter in word:
+            if letter in lowercase_letters:
+                count += 1
+            else:
+                return False
+        if count == len(word):
+            return True      
+
+    # will check if the word is made using adjacent letters
+    def is_word_valid(self):
+        pass
+
+    def was_letter_used_twice(**kwargs) -> bool:
+        pass
+    
+    def get_score(self, list_of_valid_words):
+        total = 0
+        for i in list_of_valid_words:
+            print(len(i))
+            if len(i) == 3 or len(i) == 4:
+                total += 1
+            elif len(i) == 5:
+                total += 2
+            elif len(i) == 6:
+                total += 3
+            elif len(i) == 7:
+                total += 5
+            elif len(i) >= 8:
+                total += 11
+        count = len(list_of_valid_words)
+        return count,total
+
+def main():
+        word = " "
+        bg = BoggleGame()
+        bg.welcome_sign()
+        game_letters = bg.start_game() # returns a 2d array
+        list_of_valid_words = []
+        while True:
+            game_letters_list = bg.get_list_of_letters(game_letters) # returns a string list 
+            word = bg.get_user_word()
+            if word.lower() == "x":
+                if len(list_of_valid_words) == 0:
+                    print("Your score is 0.")
+                    break
+                else:
+                    count, score = bg.get_score(list_of_valid_words)
+                    print("Game over.")
+                    print("You got " + str(count) + " words!")
+                    print("Your total score is: " + str(score) + " points!")
+                    break
+            else:
+                # check to see if the word is three letters or more
+                word_is_three_letters = bg.is_word_three_letters(word.lower())
+                # check to see if letters are even on the board
+                word_on_board = bg.is_word_on_board(word.lower(), game_letters_list)
+                if word_on_board  & word_is_three_letters:
+                    list_of_valid_words.append(word.lower())
+                else:
+                    print("Word is not valid.")
+            
+
+main()
+
+
 
