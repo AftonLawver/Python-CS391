@@ -1,4 +1,6 @@
 # Practice using classes in python
+import math
+
 
 class House():
     def __init__(self, floors, material, cost):
@@ -24,6 +26,11 @@ print("My house has " + number_of_floors + " floors")
 
 class Employee:
 
+    # Class variables: variables that are shared among all instances
+    # of a class
+    raise_amount = 1.04
+    num_of_employees = 0
+
     # When we create instances within a class, they receive the instance as the 
     # first argument automatically. By convention, this is self.
     def __init__(self, first, last, pay):
@@ -32,13 +39,44 @@ class Employee:
         self.pay = pay
         self.email = first + '.' + last + '@company.com'
 
+        Employee.num_of_employees += 1
+
     def full_name(self):
         return '{} {}'.format(self.first, self.last)
 
-emp_2 = Employee('Afton', 'Lawver', 50000)
-print(emp_2.email)
-print(emp_2.full_name())
+    def apply_raise(self):
+        self.pay = int(self.pay * self.raise_amount)
+
+#emp_2 = Employee('Afton', 'Lawver', 50000)
+##emp_3 = Employee('Afton', 'Lawver', 50000)
+
+#print(Employee.num_of_employees)
+
+# Create a Vehicle class with max_speed and mileage instance attributes
+
+class Vehicle():
+
+    def __init__(self, max_speed, mileage):
+        self.max_speed = max_speed
+        self.mileage = mileage
+
+    
+
+class Circle():
+
+    def __init__(self, radius):
+        self.radius = radius
+
+    def get_area(self):
+        # Area of a circle = pi * r*r
+        print("Area of circle is: ")
+        return (math.pi * self.radius**2)
+
+    def get_circumference(self):
+        print("Circumference of circle is: ")
+        return (2 * math.pi * self.radius)
 
 
-
-
+a = Circle(3)
+print(a.get_area())
+print(a.get_circumference())
