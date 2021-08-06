@@ -7,6 +7,7 @@ by inputting test results. The output will be something like: your organism is x
 import sqlite3
 from urllib.request import pathname2url
 import os
+import pandas as pd
 
 # 1. Write a database class that allows us to: 
 #   a. Create a database that will hold information about all of the micro
@@ -54,17 +55,25 @@ class Database():
 
         return conn
 
-    def create_table(self, filename):
-        pass
+    def create_table(self, conn, create_table_sql):
+        try:
+            c = conn.cursor()
+            c.execute(create_table_sql)
+        except Exception as e:
+            print(e)
 
     def check_existence(self,filename):
+        value = False
         try:
             # Check if db exists
             dburi = 'file:{}?mode=rw'.format(pathname2url(self.filename))
             conn = sqlite3.connect(dburi, uri=True)
+            value = True
         except sqlite3.OperationalError:
-            return None
-            
+            return value
+    
+    def open_table(self, filename):
+
         
 
 
@@ -73,10 +82,29 @@ class BiochemicalTests():
     def __init__(self):
         pass
 
-a = Database()
-if a.check_existence(a.filename) == None:
-    a.create_connection(a.filename)
-    print("connection created.")
-else:
-    print("did not create connection.")
+def main():
+    a = Database()
+    if a.check_existence(a.filename) == False:
+        conn = a.create_connection(a.filename)
+        print("{} created in {}".format(a.filename, a.cwd))
 
+        sql_microorganisms_table = """ CREATE TABLE IF NOT EXISTS           microorganisms (
+            name TEXT NOT NULL,
+            gram stain TEXT NOT NULL);
+            """
+        a.create_table(conn, sql_microorganisms_table)
+        print("table created.")
+    else:
+        conn = a.create_connection(a.filename)
+        print("{} created in {}".format(a.filename, a.cwd))
+
+        sql_microorganisms_table = """ CREATE TABLE IF NOT EXISTS           microorganisms (
+            name TEXT NOT NULL,
+            gram stain TEXT NOT NULL);
+            """
+        a.create_table(conn, sql_microorganisms_table)
+        print("table created.")
+
+
+if __name__ == '__main__':
+    main()
