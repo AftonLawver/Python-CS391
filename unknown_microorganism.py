@@ -24,9 +24,9 @@ import pandas as pd
 #   d. Whichever bacteria has the greatest number of matching results, output that bacteria.
 
 class Database():
-
     filename = r'TestDB.db'
     cwd = os.getcwd()
+    cols = ['name', 'shape', 'gram']
 
     def __init__(self):
         # 
@@ -72,15 +72,24 @@ class Database():
         except sqlite3.OperationalError:
             return value
     
-    def open_table(self, filename):
+    def get_table(self, conn):
+        df = pd.read_sql("SELECT * FROM microorganisms", conn)
+        return df
 
-        
+    def add_row(self, conn, cols, values):
+        cursor = conn.cursor()
+        cursor.execute('''
+        INSERT INTO TestDB.db.microorganisms ''' + (cols) + ''')
+        VALUES''' + values)
+
+    def add_column(self):
+        pass
 
 
-class BiochemicalTests():
-
+class BiochemicalTests():  
     def __init__(self):
         pass
+
 
 def main():
     a = Database()
@@ -90,21 +99,27 @@ def main():
 
         sql_microorganisms_table = """ CREATE TABLE IF NOT EXISTS           microorganisms (
             name TEXT NOT NULL,
+            shape TEXT NOT NULL,
             gram stain TEXT NOT NULL);
             """
         a.create_table(conn, sql_microorganisms_table)
         print("table created.")
+
+        # get the table to print out as a dataframe
+        table = a.get_table(conn)
+        print(table)
     else:
         conn = a.create_connection(a.filename)
-        print("{} created in {}".format(a.filename, a.cwd))
+        # get the table to print out as a dataframe
+        table = a.get_table(conn)
+        print('before addition')
+        print(table)
 
-        sql_microorganisms_table = """ CREATE TABLE IF NOT EXISTS           microorganisms (
-            name TEXT NOT NULL,
-            gram stain TEXT NOT NULL);
-            """
-        a.create_table(conn, sql_microorganisms_table)
-        print("table created.")
-
+        # add a new row to the dataframe
+        a.add_row(conn, a.cols, ('E.coli', 'Rod', 'Negative'))
+        table2 = a.get_table(conn)
+        print('after addition')
+        print(table)
 
 if __name__ == '__main__':
     main()
