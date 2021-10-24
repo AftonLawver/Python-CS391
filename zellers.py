@@ -2,31 +2,31 @@
 # a specific date will fall (or fell).
 
 print("Enter your date of birth:")
-month = input("Month: ")
-if month.lower() == "january":
-    month = 11
-elif month.lower() == "february":
-    month = 12
-elif month.lower() == "march":
-    month = 1
-elif month.lower() == "april":
-    month = 2
-elif month.lower() == "may":
+input_month = input("Month: ").upper()
+if input_month.lower() == "january":
+    month = 13
+elif input_month.lower() == "february":
+    month = 14
+elif input_month.lower() == "march":
     month = 3
-elif month.lower() == "june":
+elif input_month.lower() == "april":
     month = 4
-elif month.lower() == "july":
+elif input_month.lower() == "may":
     month = 5
-elif month.lower() == "august":
+elif input_month.lower() == "june":
     month = 6
-elif month.lower() == "september":
+elif input_month.lower() == "july":
     month = 7
-elif month.lower() == "october":
+elif input_month.lower() == "august":
     month = 8
-elif month.lower() == "november":
+elif input_month.lower() == "september":
     month = 9
-elif month.lower() == "december":
+elif input_month.lower() == "october":
     month = 10
+elif input_month.lower() == "november":
+    month = 11
+elif input_month.lower() == "december":
+    month = 12
 day = int(input("Day: "))
 year = input("Year: ")
 year_of_century = int(year[2:4])
@@ -52,4 +52,4 @@ elif r == 5:
 elif r == 6:
     r = "Saturday"
 
-print(r)
+print("The day of the week that {} {}, {} falls on is {}".format(input_month, day, year, r))
