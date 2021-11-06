@@ -40,33 +40,3 @@ print(list_of_money_amounts)
 
 for suitcase in list_of_suitcase_objects:
     print("{}: ${}".format(suitcase.get_name(),suitcase.get_amount()))
-
-'''
-suitcase1 = deal_or_no_deal.Suitcase()
-suitcase2 = deal_or_no_deal.Suitcase()
-suitcase3 = deal_or_no_deal.Suitcase()
-suitcase4 = deal_or_no_deal.Suitcase()
-suitcase5 = deal_or_no_deal.Suitcase()
-suitcase6 = deal_or_no_deal.Suitcase()
-suitcase7 = deal_or_no_deal.Suitcase()
-suitcase8 = deal_or_no_deal.Suitcase()
-suitcase9 = deal_or_no_deal.Suitcase()
-suitcase10 = deal_or_no_deal.Suitcase()
-suitcase11 = deal_or_no_deal.Suitcase()
-suitcase12 = deal_or_no_deal.Suitcase()
-suitcase13 = deal_or_no_deal.Suitcase()
-suitcase14 = deal_or_no_deal.Suitcase()
-suitcase15 = deal_or_no_deal.Suitcase()
-suitcase16 = deal_or_no_deal.Suitcase()
-suitcase17 = deal_or_no_deal.Suitcase()
-suitcase18 = deal_or_no_deal.Suitcase()
-suitcase19 = deal_or_no_deal.Suitcase()
-suitcase20 = deal_or_no_deal.Suitcase()
-suitcase21 = deal_or_no_deal.Suitcase()
-suitcase22 = deal_or_no_deal.Suitcase()
-suitcase23 = deal_or_no_deal.Suitcase()
-suitcase24 = deal_or_no_deal.Suitcase()
-suitcase25 = deal_or_no_deal.Suitcase()
-suitcase26 = deal_or_no_deal.Suitcase()
-
-'''
