@@ -1,6 +1,6 @@
-'''
+"""
 Author: Afton Lawver
-'''
+"""
 # Tips:
 # Create a function that displays word if user wants to give up
 
@@ -26,9 +26,12 @@ def import_word_list():
         my_word_list = [s.replace("\n", "") for s in my_word_list]
     return my_word_list
 
+def open_word_list_file():
+    pass
+
 def choose_secret_word():
-    x = import_word_list()
-    secret_word = random.choice(x)
+    word_list = import_word_list()
+    secret_word = random.choice(word_list)
     return secret_word
 
 def is_letter_in_word(letter:str, word:str):

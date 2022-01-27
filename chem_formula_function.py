@@ -2,16 +2,18 @@
 """
 Created on Wed Dec  9 15:44:28 2020
 
-@author: SIU851463587
+@author: Afton Lawver
 """
-'''
-This creates a chemical formula with subscript numbers with an
-input of letters and regular typed numbers'''
 
-def chemical_formula(x:str):
+def chemical_formula(chemical_formula:str):
+    """Changes all numbers in a chemical formula from 
+    regular-sized numbers to subscript.
+
+    Args:
+        chemical_formula (str): Chemical formula without subscript 
+        numbers. 
+    """
     sub = str.maketrans("0123456789", "₀₁₂₃₄₅₆₇₈₉")
-    print(x.translate(sub))
+    print(chemical_formula.translate(sub))
     
 chemical_formula("C5H12O")
-
-
