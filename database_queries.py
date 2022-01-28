@@ -15,9 +15,12 @@ class Database():
     def create_cursor(self):
         self.cursor = self.connection.cursor()
 
-    def run_query(self, query:str, parameters:list):
+    def run_query(self, query:str, parameters:tuple=None):
         self.cursor.execute(query, parameters)
         print("Query finished.")
+    
+    def fetch_all(self):
+        return self.cursor.fetchall()
     
     def commit_transaction(self):
         self.connection.commit()

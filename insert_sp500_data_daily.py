@@ -66,6 +66,18 @@ def insert_record_manually(name_of_table:str, open_price:float, close_price:floa
     my_db.commit_transaction()
     my_db.close_database()
 
+# Edit Volume column in a table
+def update_volume(name_of_table:str, volume:int, date:str):
+    table_name = scrub(name_of_table)
+    my_db = database_queries.Database("C:\\Users\lawve\Desktop\mydb.db")
+    my_db.connect_to_database()
+    my_db.create_cursor()
+    query_parameters = (volume, date)
+    query = '''UPDATE {} SET Volume = ? WHERE Date = date(?);'''.format(table_name)
+    my_db.run_query(query, query_parameters)
+    my_db.commit_transaction()
+    my_db.close_database()dd
+
 # Delete record
 # ************************************************************************************************ 
 def delete_record_using_date(table_name:str, date:str):
@@ -86,7 +98,7 @@ def create_table(name_of_table:str):
     my_db.connect_to_database()
     my_db.create_cursor()
     query = '''CREATE TABLE {} (
-        Date DATE,
+        Datetime TEXT,
         Open REAL,
         High REAL,
         Low REAL,
@@ -111,13 +123,53 @@ def drop_table(name_of_table:str):
 # Select Data
 # *****************************************************************************
 def print_one_row(name_of_table:str):
+    name_of_table = scrub(name_of_table)
     my_db = database_queries.Database("C:\\Users\lawve\Desktop\mydb.db")
     my_db.connect_to_database()
     my_db.create_cursor()
-    query = '''SELECT  FROM {} LIMIT 1'''.format(name_of_table)
+    query = "SELECT * FROM {} LIMIT 1".format(name_of_table)
     my_db.run_query(query)
     my_db.commit_transaction()
     my_db.close_database()
+
+def print_records_between_dates(name_of_table:str, start_date:str, end_date:str):
+    table_name = scrub(name_of_table)
+    my_db = database_queries.Database("C:\\Users\lawve\Desktop\mydb.db")
+    my_db.connect_to_database()
+    my_db.create_cursor()
+    my_parameters = (start_date, end_date)
+    query = "SELECT * FROM {} WHERE Date BETWEEN date(?) AND date(?);".format(table_name)
+    my_db.run_query(query, my_parameters)
+    rows = my_db.fetch_all()
+    for row in rows:
+        print(row)
+
+def print_records_after_date(name_of_table:str, start_date:str):
+    table_name = scrub(name_of_table)
+    my_db = database_queries.Database("C:\\Users\lawve\Desktop\mydb.db")
+    my_db.connect_to_database()
+    my_db.create_cursor()
+    my_parameters = (start_date,)
+    query = '''SELECT * FROM {} WHERE Date >= date(?);'''.format(table_name)
+    my_db.run_query(query, my_parameters)
+    rows = my_db.fetch_all()
+    for row in rows:
+        print(row)
+
+def print_records_before_date(name_of_table:str, end_date:str):
+    table_name = scrub(name_of_table)
+    my_db = database_queries.Database("C:\\Users\lawve\Desktop\mydb.db")
+    my_db.connect_to_database()
+    my_db.create_cursor()
+    my_parameters = (end_date,)
+    query = '''SELECT * FROM {} WHERE Date <= date(?);'''.format(table_name)
+    my_db.run_query(query, my_parameters)
+    rows = my_db.fetch_all()
+    for row in rows:
+        print(row)
+
+
+
 
 # Insert Initial Records
 # ************************************************************************
@@ -18239,4 +18291,8 @@ def insert_initial_records():
     my_db.commit_transaction()
     my_db.close_database()
 
-delete_record_using_date('SP500TEST', '2021-12-08')
+
+create_table("SP500datetimeTEST")
+
+date = datetime.datetime.now()
+print(date)
